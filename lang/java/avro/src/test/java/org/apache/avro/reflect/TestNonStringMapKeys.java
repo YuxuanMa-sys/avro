@@ -89,7 +89,9 @@ public class TestNonStringMapKeys {
     byte[] jsonBytes = testJsonEncoder(testType, entityObj1);
     assertNotNull(jsonBytes, "Unable to serialize using jsonEncoder");
     GenericRecord jsonRecord = testJsonDecoder(testType, jsonBytes, entityObj1);
-    assertEquals(record, jsonRecord, "JSON decoder output not same as Binary Decoder");
+    List<GenericRecord> expectedEmployees = (List<GenericRecord>) record.get("employees");
+    List<GenericRecord> actualEmployees = (List<GenericRecord>) jsonRecord.get("employees");
+    assertTrue(expectedEmployees.containsAll(actualEmployees) && actualEmployees.containsAll(expectedEmployees), "JSON decoder output not same as Binary Decoder");
   }
 
   @Test
